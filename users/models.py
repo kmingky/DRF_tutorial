@@ -53,3 +53,27 @@ class User(AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
 
+
+# 유저에 맞는 프로필 생성
+class UserProfile(models.Model):
+
+    GENDER_CHOICE = (
+        ('M', '남성(Man)'),
+        ('W', '여성(Woman)'),
+    )
+
+    user = models.OneToOneField(User, verbose_name="유저", on_delete=models.CASCADE)
+    gender = models.CharField("성별", max_length=10, choices=GENDER_CHOICE)
+    introduction = models.TextField("자기소개", null=True, blank=True)
+    birthday = models.DateField("생일")
+    age = models.IntegerField("나이")
+    hobby = models.ManyToManyField('Hobby', verbose_name="취미")
+
+    def __str__(self):
+        return f"{self.user.username}의 프로필"
+
+# 취미 카테고리
+class Hobby(models.Model):
+    name = models.CharField("취미", max_length=20)
+    def __str__(self):
+        return self.name
