@@ -48,3 +48,23 @@ class UserAPIView(APIView):
     def delete(self, request):
         logout(request)
         return Response({"success": "로그아웃 성공"})
+
+
+class UserView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    # 사용자 정보 조회
+    def get(self, request):
+        return Response({"message": "get method"})
+
+    # 회원가입
+    def post(self, request):
+        return Response({"message": "post method!!"})
+
+    # 회원 정보 수정
+    def put(self, request):
+        return Response({"message": "put method!!"})
+
+    # 회원 탈퇴
+    def delete(self, request):
+        return Response({"message": "delete method!!"})
