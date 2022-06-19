@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from blogs.models import Category as CategoryModel
-from blogs.models import Article as ArticleModel
-from blogs.models import Comment as CommentModel
+from .models import Category as CategoryModel
+from .models import Article as ArticleModel
+from .models import Comment as CommentModel
 
 # Register your models here.
 admin.site.register(CategoryModel)

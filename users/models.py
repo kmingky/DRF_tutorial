@@ -30,7 +30,6 @@ class User(AbstractBaseUser):
     password = models.CharField("비밀번호", max_length=200)
     email = models.EmailField("이메일 주소", max_length=100)
     fullname = models.CharField("이름", max_length=50)
-    address = models.CharField("주소", max_length=256, null=False)
 
     join_date = models.DateTimeField("가입일", auto_now_add=True)
     is_active = models.BooleanField(default=True)
@@ -64,6 +63,7 @@ class UserProfile(models.Model):
     )
 
     user = models.OneToOneField(User, verbose_name="유저", on_delete=models.CASCADE)
+    address = models.CharField("주소", max_length=256, null=False)
     gender = models.CharField("성별", max_length=10, choices=GENDER_CHOICE)
     introduction = models.TextField("자기소개", null=True, blank=True)
     birthday = models.DateField("생일")
