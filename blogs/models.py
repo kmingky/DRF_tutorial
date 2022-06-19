@@ -20,4 +20,8 @@ class Article(models.Model):
     def __str__(self):
         return f"{self.user.username}의 게시물"
 
-    
+# blog 앱에 <게시글, 사용자, 내용>이 포함된 comment 테이블을 작성해주세요
+class Comment(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name="게시글")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="사용자")
+    contents = models.TextField("내용")

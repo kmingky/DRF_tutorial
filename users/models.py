@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.utils import timezone
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -31,7 +32,7 @@ class User(AbstractBaseUser):
     fullname = models.CharField("이름", max_length=50)
     address = models.CharField("주소", max_length=256, null=False)
 
-    join_date = models.DateField("가입일", auto_now_add=True)
+    join_date = models.DateTimeField("가입일", auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
