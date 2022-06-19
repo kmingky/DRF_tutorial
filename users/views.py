@@ -5,7 +5,11 @@ from rest_framework.response import Response
 from rest_framework import permissions, status
 from django.contrib.auth.hashers import make_password
 
+from users import serializers
+
+
 from .models import User
+from users.serializers import UserSerializer
 
 
 # Create your views here.
@@ -55,7 +59,9 @@ class UserView(APIView):
 
     # 사용자 정보 조회
     def get(self, request):
-        return Response({"message": "get method"})
+        return Response(UserSerializer(request.user).data)
+
+        # return Response({"message": "get method"})
 
     # 회원가입
     def post(self, request):
