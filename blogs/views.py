@@ -5,6 +5,8 @@ from rest_framework import permissions, status
 from .models import Article as ArticleModel
 from .models import Category as CategoryModel
 
+from drf_tutorial.permissions import MyCustomPermission
+
 # Create your views here.
 class ArticleView(APIView):
     # 로그인된 사용자만 접근가능
@@ -21,6 +23,7 @@ class ArticleView(APIView):
 
         return Response({"success": "불러오기 성공", "article_list": titles})
 
+    permission_classes = [MyCustomPermission]
     def post(self, request):
         # data = json.loads(request.body)
         title = request.data.get('title', None)
