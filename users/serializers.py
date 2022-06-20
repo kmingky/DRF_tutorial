@@ -10,10 +10,12 @@ from blogs.serializers import ArticleSerializer, CommentSerializer
 class HobbyModelSerializer(serializers.ModelSerializer):
     same_hobby_users = serializers.SerializerMethodField()
     def get_same_hobby_users(self, obj):
+        user = self.context["request"].user
+        print(user)
         # user_list = []
         # for user_profile in obj.userprofile_set.all():
         #     user_list.append(user_profile.user.fullname)
-        return [user_profile.user.fullname for user_profile in obj.userprofile_set.all()]
+        return [user_profile.user.fullname for user_profile in obj.userprofile_set.exclude(user=user)]
 
     class Meta:
         model = HobbyModel
@@ -36,6 +38,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ["username", "fullname", "join_date", "userprofile", "articles", "comments"]
+
+
 
 
 # 회원가입을 위한 시리얼라이저

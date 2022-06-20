@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate, login, logout
@@ -61,7 +62,8 @@ class UserView(APIView):
 
     # 사용자 정보 조회
     def get(self, request):
-        return Response(UserSerializer(request.user).data)
+        user_serializer = UserSerializer(request.user, context={"request": request}).data
+        return Response(user_serializer, status=status.HTTP_200_OK)
 
         # return Response({"message": "get method"})
 

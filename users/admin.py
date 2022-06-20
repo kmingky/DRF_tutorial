@@ -12,6 +12,7 @@ class UserProfileInline(admin.StackedInline):
     model = UserProfileModel
     filter_horizontal = ["hobby"]
 
+
 class UserAdmin(BaseUserAdmin):
     list_display = ('id', 'username', 'email', 'fullname')
     list_display_links = ('username', )
@@ -19,7 +20,7 @@ class UserAdmin(BaseUserAdmin):
     search_fields = ('username', 'email')
 
     fieldsets = (
-         ("info", {'fields': ('username', 'password', 'email', 'fullname', 'join_date')}),
+        ("info", {'fields': ('username', 'password', 'email', 'fullname', 'join_date')}),
         ('permissions', {'fields': ('is_admin', 'is_active', )})
 
     )
@@ -33,11 +34,11 @@ class UserAdmin(BaseUserAdmin):
             return ("join_date")
 
     inlines = (
-            UserProfileInline,
-        )
+        UserProfileInline,
+    )
+
 
 # Register your models here.
 admin.site.register(UserModel, UserAdmin)
 admin.site.register(UserProfileModel)
 admin.site.register(HobbyModel)
-
