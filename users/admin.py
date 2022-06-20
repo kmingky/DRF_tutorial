@@ -8,3 +8,4 @@ from users.models import Hobby as HobbyModel
 admin.site.register(UserModel)
 admin.site.register(UserProfileModel)
 admin.site.register(HobbyModel)
+

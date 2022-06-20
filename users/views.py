@@ -5,11 +5,8 @@ from rest_framework.response import Response
 from rest_framework import permissions, status
 from django.contrib.auth.hashers import make_password
 
-from users import serializers
-
-
 from .models import User
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, UserJoinSerializer
 
 
 # Create your views here.
@@ -17,20 +14,25 @@ class JoinView(APIView):
     permission_classes = [permissions.AllowAny]
     # 회원 가입
     def post(self, request):
-        # data = json.loads(request.body)
-        username = request.data.get('username', None)
-        password = request.data.get('password', None)
-        email = request.data.get('email', None)
-        fullname = request.data.get('fullname', None)
+        # username = request.data.get('username', None)
+        # password = request.data.get('password', None)
+        # email = request.data.get('email', None)
+        # fullname = request.data.get('fullname', None)
 
-        User.objects.create(
-        username=username,
-        password=make_password(password),
-        email=email,
-        fullname=fullname
-        )
+        # User.objects.create(
+        # username=username,
+        # password=make_password(password),
+        # email=email,
+        # fullname=fullname
+        # )
 
-        return Response({"success": "회원가입 성공"}, status=status.HTTP_200_OK)
+        serializer = UserJoinSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"success": "회원가입 성공"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"fail": "회원가입 실패"}, status=status.HTTP_400_BAD_REQUEST)
+        # return Response({"success": "회원가입 성공"}, status=status.HTTP_200_OK)
 
 class UserAPIView(APIView):
     # 로그인

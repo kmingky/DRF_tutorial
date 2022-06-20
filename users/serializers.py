@@ -1,24 +1,9 @@
-from urllib import request, response
 from rest_framework import serializers
 from .models import User as UserModel
 from .models import UserProfile as UserProfileModel
 from .models import Hobby as HobbyModel
-from blogs.models import Article as ArticleModel
-from blogs.models import Comment as CommentModel
 
-# serializer에 추가로 로그인 한 사용자의 게시글, 댓글을 리턴해주는 기능을 구현해주세요
-# class CommentSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = CommentModel
-#         fields = ["user", "contents"]
-
-
-class ArticleSerializer(serializers.ModelSerializer):
-    # comment = CommentSerializer()
-
-    class Meta:
-        model = ArticleModel
-        fields = ["title", "category", "contents", "comment"]
+from blogs.serializers import ArticleSerializer, CommentSerializer
 
 
 # serializer를 활용해 로그인 한 사용자의 기본 정보와 상세 정보를 리턴해 주는 기능을 만들어주세요
@@ -45,9 +30,30 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     userprofile = UserProfileSerializer()
-    article = ArticleSerializer(many=True)
+    articles = ArticleSerializer(many=True, source='article_set')
+    comments = CommentSerializer(many=True, source='comment_set')
 
     class Meta:
         model = UserModel
-        fields = ["username", "fullname", "join_date", "userprofile", "article"]
+        fields = ["username", "fullname", "join_date", "userprofile", "articles", "comments"]
 
+
+# 회원가입을 위한 시리얼라이저
+class UserJoinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = "__all__"
+
+    def create(self, *args, **kwargs):
+        user = super().create(*args, **kwargs)
+        p = user.password
+        user.set_password(p)
+        user.save()
+        return user
+
+    def update(self, *args, **kwargs):
+        user = super().update(*args, **kwargs)
+        p = user.password
+        user.set_password(p)
+        user.save()
+        return user

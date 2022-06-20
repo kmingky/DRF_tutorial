@@ -31,3 +31,6 @@ class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name="게시글")
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="사용자")
     contents = models.TextField("내용")
+
+    def __str__(self):
+        return f"{self.article.title}의 {self.user.username}이 작성한 {self.contents}"

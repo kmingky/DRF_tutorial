@@ -23,15 +23,31 @@ class ArticleView(APIView):
 
         return Response({"success": "불러오기 성공", "article_list": titles})
 
-    permission_classes = [MyCustomPermission]
+    
     def post(self, request):
-        # data = json.loads(request.body)
-        title = request.data.get('title', None)
-        category = request.data.get('category', None)
-        contents = request.data.get('contents', None)
+        permission_classes = [MyCustomPermission]
+        user = request.user
+        title = request.data.get('title', "")
+        categorys = request.data.get('category', [])
+        contents = request.data.get('contents', "")
 
-        category = CategoryModel.objects.get(name = category)
+        if len(title) <= 5:
+            return Response({"error": "제목은 5자 이상이어야 합니다."}, status=status.HTTP_400_BAD_REQUEST)
 
-        ArticleModel(title=title, category=category, contents=contents).save()
+        if not categorys:
+            return Response({"error": "카테고리는 꼭 지정하셔야 합니다."}, status=400)
+
+        if len(contents) <= 20:
+            return Response({"error": "내용은 20자 이상이어야 합니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        article = ArticleModel(
+            user=user,
+            title=title,
+            contents=contents
+        )
+
+        article.save()
+        article.category.add(*categorys)
 
         return Response({"success": "글쓰기 성공"}, status=status.HTTP_200_OK)
