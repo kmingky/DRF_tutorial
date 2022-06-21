@@ -1,8 +1,4 @@
-from unicodedata import category
 from rest_framework import serializers
-from users.models import User as UserModel
-from users.models import UserProfile as UserProfileModel
-from users.models import Hobby as HobbyModel
 from .models import Article as ArticleModel
 from .models import Comment as CommentModel
 

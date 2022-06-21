@@ -37,6 +37,13 @@ class UserAdmin(BaseUserAdmin):
         UserProfileInline,
     )
 
+    add_fieldsets = (
+    (None, {
+        'classes': ('wide',),
+        'fields' : ('username', 'email', 'fullname', 'password1', 'password2')
+        }),
+    )
+
 
 # Register your models here.
 admin.site.register(UserModel, UserAdmin)
