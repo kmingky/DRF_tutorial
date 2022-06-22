@@ -38,7 +38,9 @@ class UserSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = ["username", "fullname", "join_date", "userprofile", "articles"]
 
-
+        # extra_kwargs = {
+        #     "password" : {"write_only" : True}
+        # }
 
 
 # 회원가입을 위한 시리얼라이저
